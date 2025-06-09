@@ -1,20 +1,27 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/Userid';
 function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axios.post('https://chat-appln-jzc5.onrender.com/api/login', { email, password })
       .then(res => {
+        console.log(res.data);
         const token = res.data.token;
         localStorage.setItem('token', token); // unified key name
+        try {
+          dispatch(setUser(email));
+        } catch (err) {
+          console.error('Error dispatching or navigating:', err);
+        }
         navigate('/');
       })
       .catch(err => {

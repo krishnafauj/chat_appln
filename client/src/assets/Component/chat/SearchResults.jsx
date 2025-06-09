@@ -7,7 +7,9 @@ function SearchResults() {
 
   const handleChatRedirect = (user) => {
     navigate('/chat', {
-      state: { user }, // Pass user data to chat page
+
+      state: { user }, 
+      // Pass user data to chat page
     });
   };
 

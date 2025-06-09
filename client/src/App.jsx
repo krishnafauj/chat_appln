@@ -7,6 +7,7 @@ import SearchResults from './assets/Component/chat/SearchResults';
 import Navbar from './assets/Component/Navbar';
 import MainLayout from './assets/MainLayout';
 import ChatPage from './assets/Component/chat/Chatpage';
+
 function App() {
   return (
     <div className='min-h-screen  px-10  bg-green-200'>

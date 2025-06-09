@@ -1,19 +1,35 @@
 import { useEffect, useState } from 'react';
 import { connectSocket, getSocket } from './Connection';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 function ChatPage() {
+  const location = useLocation();
+  const userFromState = location.state?.user || null;
+  console.log('User from state:', userFromState.email);
+  const user1 = useSelector((state) => state.user.user);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
-  const [email, setEmail] = useState('user1@example.com'); // Current user email
+  const [email, setEmail] = useState(''); // Current user email
   const [toEmail, setToEmail] = useState('user2@example.com'); // Receiver email
 
   useEffect(() => {
+    setEmail(user1);
+    setToEmail(userFromState.email);
+  }, [user1, userFromState]);
+
+  useEffect(() => {
+    if (!email) return;
+
     connectSocket();
     const socket = getSocket();
+
     socket.emit('register', email);
+
     socket.on('receive-message', (msg) => {
       setMessages((prev) => [...prev, { ...msg, self: false }]);
     });
+
     return () => {
       socket.off('receive-message');
     };
@@ -23,11 +39,13 @@ function ChatPage() {
     if (!message.trim()) return;
 
     const socket = getSocket();
+
     socket.emit('send-message', {
       toEmail,
       fromEmail: email,
       message,
     });
+
     setMessages((prev) => [...prev, { from: email, message, self: true }]);
     setMessage('');
   };
@@ -37,24 +55,12 @@ function ChatPage() {
       <h2 className="text-xl font-bold mb-4">Chat</h2>
 
       <div className="mb-2">
-        <label>
-          Your Email:
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border p-1 ml-2"
-          />
-        </label>
+        <label>Your Email: {user1}</label>
       </div>
 
       <div className="mb-4">
         <label>
-          Send To:
-          <input
-            value={toEmail}
-            onChange={(e) => setToEmail(e.target.value)}
-            className="border p-1 ml-2"
-          />
+         To Email: {toEmail}
         </label>
       </div>
 

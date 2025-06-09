@@ -10,7 +10,15 @@ import initSocketServer from './controller/socketserver.js';
 connectDB();
 
 const app = express();
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:5173',        // local dev frontend
+  'https://chat-appln-jzc5.onrender.com' // production Vercel URL
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,  // only if using cookies/auth headers
+}));
 app.use(express.json());
 app.use('/', router);
 

@@ -38,4 +38,5 @@
     "postcss-simple-vars": "^7.0.1",
     "vite": "^6.1.0"
   }
+  
 }

@@ -1,26 +1,33 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate=useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Email:', email, 'Password:', password);
-    axios.post('http://localhost:5000/login', {
-      email,
-      password
-    })
-    .then(res => {
-      console.log('Login Success:', res.data);
-    })
-    .catch(err => {
-      console.error('Login Failed:', err);
-    });
-    // Optional: handle login logic here
+  
+    axios.post('/api/login', { email, password })  // <- Add leading slash!
+      .then(res => {
+        if (res.status === 401) {
+          setError('User already exists');
+          return;
+        }
+        
+        const token = res.data.token;
+        localStorage.setItem('authToken', token);
+        navigate('/');  
+        console.log('Login Success:');
+      })
+      .catch(err => {
+        console.error('Login Failed:', err);
+      });
   };
+
 
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
@@ -51,7 +58,13 @@ function Login() {
           </div>
           <button type="submit" className="btn btn-primary w-100">Login</button>
         </form>
+        <NavLink to='/Signup'>
+        <p>
+          Signup
+          </p>
+        </NavLink>
       </div>
+    
     </div>
   );
 }

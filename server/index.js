@@ -1,11 +1,12 @@
-import 'dotenv/config';    // ✅ Loads env vars before anything else
-
+// server.js
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import http from 'http';
 import connectDB from './models/db.js';
 import router from './routes/Routes.js';
+import initSocketServer from './controller/socketserver.js';
 
-// Now process.env.* is ready
 connectDB();
 
 const app = express();
@@ -14,7 +15,11 @@ app.use(express.json());
 app.use('/', router);
 
 const PORT = process.env.PORT || 5000;
+const server = http.createServer(app);
 
-app.listen(PORT, () =>
-  console.log(`Server is running on port ${PORT}`)
-);
+// ✅ Initialize socket logic
+initSocketServer(server);
+
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

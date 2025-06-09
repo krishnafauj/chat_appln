@@ -1,30 +1,48 @@
-
-import { NavLink } from 'react-router-dom'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Navbar() {
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (keyword) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/search', {
+        keyword: keyword.trim(),
+      });
+
+      // Navigate to /results and pass data via state
+      navigate('/results', { state: { results: response.data, keyword } });
+    } catch (error) {
+      console.error('Search error:', error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+
+    if (value.trim() === '') return;
+
+    // Debounce
+    clearTimeout(window.searchTimeout);
+    window.searchTimeout = setTimeout(() => handleSubmit(value), 500);
+  };
+
   return (
     <div className='flex w-full items-center px-4 py-5 '>
-      <div className='w-1/3  '>
-        <p>
-          Chatappln
-        </p>
-      </div >
-      <div className='w-2/3 flex justify-end flex-row gap-10 '>
-        <NavLink to='/path'>
-          Home
-        </NavLink>
-        <NavLink to='/path'>
-          Help
-        </NavLink>
-        <NavLink to='/login'>
-          Login
-        </NavLink>
-        <NavLink to='/path'>
-          signup
-        </NavLink>
+      <div className='w-1/3'>
+        <input
+          type="text"
+          placeholder="Search account..."
+          value={query}
+          onChange={handleChange}
+          className='border border-amber-200 px-3 py-2 w-full rounded'
+        />
       </div>
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

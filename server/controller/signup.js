@@ -1,4 +1,5 @@
-import Signup from "../models/signup.js";
+import Signupuser from "../models/usersignup.js";
+import bcrypt from "bcrypt";
 
 const signup = async (req, res) => {
   try {
@@ -8,7 +9,15 @@ const signup = async (req, res) => {
       return res.status(400).json({ message: "Email and password are required" });
     }
 
-    const user = new Signup({ email, password });
+    const existingUser = await Signupuser.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ message: "User with this email already exists" });
+    }
+
+    const saltRounds = 10; // you can increase for more security but slower
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const user = new Signupuser({ email, password: hashedPassword });
 
     await user.save();
 

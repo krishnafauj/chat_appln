@@ -16,8 +16,6 @@ app.use('/', router);
 
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
-
-// ✅ Initialize socket logic
 initSocketServer(server);
 
 server.listen(PORT, () => {

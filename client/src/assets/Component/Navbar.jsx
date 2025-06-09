@@ -12,7 +12,6 @@ function Navbar() {
         keyword: keyword.trim(),
       });
 
-      // Navigate to /results and pass data via state
       navigate('/results', { state: { results: response.data, keyword } });
     } catch (error) {
       console.error('Search error:', error);

@@ -8,4 +8,5 @@ const router = express.Router();
 router.post('/api/login',login);
 router.post('/api/signup',signup);
 router.post('/api/search',search);
+
 export default router;  

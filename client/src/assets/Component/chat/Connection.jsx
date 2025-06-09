@@ -1,7 +1,18 @@
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 
-const socket = io("http://localhost:3000");  // Connect to backend server
+let socket;
 
-socket.on("connect", () => {
-  console.log("Connected with id:", socket.id);
-});
+export const connectSocket = (userEmail) => {
+  if (socket && socket.connected) {
+    console.log('Socket already connected');
+    return;
+  }
+
+  socket = io('https://chat-appln-jzc5.onrender.com', {
+    path: '/api/socket.io',
+  });
+
+  
+};
+
+export const getSocket = () => socket;

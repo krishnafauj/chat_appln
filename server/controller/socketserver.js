@@ -1,9 +1,14 @@
 import { Server } from "socket.io";
 
 export default function initSocketServer(server) {
+  const allowedOrigins = [
+    'http://localhost:5173',  // local dev
+    'https://chat-appln-git-main-krishnafaujs-projects.vercel.app' // Vercel frontend
+  ];
+  
   const io = new Server(server, {
     cors: {
-      origin: 'https://chat-appln-jzc5.onrender.com',
+      origin: allowedOrigins,
       methods: ['GET', 'POST'],
     },
     path: '/api/socket.io',

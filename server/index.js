@@ -11,9 +11,10 @@ connectDB();
 
 const app = express();
 const allowedOrigins = [
-  'http://localhost:5173',        // local dev frontend
-  'https://chat-appln-jzc5.onrender.com' // production Vercel URL
+  'http://localhost:5173',  // local dev
+  'https://chat-appln-git-main-krishnafaujs-projects.vercel.app' // Vercel frontend
 ];
+
 
 app.use(cors({
   origin: allowedOrigins,

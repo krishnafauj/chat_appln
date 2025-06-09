@@ -11,7 +11,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('/api/login', { email, password })
+    axios.post('https://chat-appln-jzc5.onrender.com/api/login', { email, password })
       .then(res => {
         const token = res.data.token;
         localStorage.setItem('token', token); // unified key name

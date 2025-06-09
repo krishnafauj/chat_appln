@@ -8,7 +8,7 @@ function Navbar() {
 
   const handleSubmit = async (keyword) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/search', {
+      const response = await axios.post('https://chat-appln-jzc5.onrender.com/api/search', {
         keyword: keyword.trim(),
       });
 

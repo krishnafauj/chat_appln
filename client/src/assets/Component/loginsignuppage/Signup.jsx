@@ -15,7 +15,7 @@ export default function Signup() {
     setError('');
 
     try {
-      const res = await fetch('api/signup', {
+      const res = await fetch('https://chat-appln-jzc5.onrender.com/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

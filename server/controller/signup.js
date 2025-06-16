@@ -18,7 +18,7 @@ const signup = async (req, res) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const user_id = uuidv4(); // ✅ Match your schema
-
+    console.log(user_id);
     const user = new Signupuser({ email, password: hashedPassword, user_id });
     await user.save();
 

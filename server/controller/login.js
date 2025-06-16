@@ -17,6 +17,8 @@ const login = async (req, res) => {
       return res.status(401).json({ message: "Invalid password" });
     }
 
+
+    console.log(user.user_id);
     const token = jwt.sign(
       {
         id: user._id,
@@ -29,7 +31,14 @@ const login = async (req, res) => {
       }
     );
 
-    res.status(200).json({ message: "Login Successful", token });
+    res.status(200).json({
+      message: "Login Successful",token, user: 
+      {
+        id: user._id,
+        user_id: user.user_id,
+        email: user.email,
+      }
+    });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }

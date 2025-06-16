@@ -1,5 +1,6 @@
 import Signupuser from "../models/usersignup.js";
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid"; // ✅ Add this import
 
 const signup = async (req, res) => {
   try {
@@ -14,11 +15,11 @@ const signup = async (req, res) => {
       return res.status(409).json({ message: "User with this email already exists" });
     }
 
-    const saltRounds = 10; // you can increase for more security but slower
+    const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const user_id = uuidv4(); // ✅ Match your schema
 
-    const user = new Signupuser({ email, password: hashedPassword });
-
+    const user = new Signupuser({ email, password: hashedPassword, user_id });
     await user.save();
 
     res.status(201).json({ message: "User created successfully" });

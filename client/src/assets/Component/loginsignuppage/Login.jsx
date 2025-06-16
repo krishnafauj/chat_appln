@@ -16,9 +16,11 @@ function Login() {
       .then(res => {
         console.log(res.data);
         const token = res.data.token;
+        const user_id=res.data.user_id;
         localStorage.setItem('token', token); // unified key name
+        localStorage.setItem('user_id', user_id); // unified key name
         try {
-          dispatch(setUser(email));
+          dispatch(setUser(email,user_id ));
         } catch (err) {
           console.error('Error dispatching or navigating:', err);
         }

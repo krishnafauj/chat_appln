@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import LogoutButton from './loginsignuppage/Logout';
 
 function Navbar() {
   const [query, setQuery] = useState('');
@@ -17,7 +18,6 @@ function Navbar() {
       console.error('Search error:', error);
     }
   };
-
   const handleChange = (e) => {
     const value = e.target.value;
     setQuery(value);
@@ -40,6 +40,7 @@ function Navbar() {
           className='border border-amber-200 px-3 py-2 w-full rounded'
         />
       </div>
+      <LogoutButton />
     </div>
   );
 }
